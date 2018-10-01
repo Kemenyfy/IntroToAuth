@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import LogIn from './views/LogIn.vue'
+import Dashboard from './views/Dashboard'
 
 Vue.use(Router)
 
@@ -23,9 +23,9 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/login',
-      name: 'login',
-      component: LogIn
-    },
+      path: '/dashboard',
+      name: 'dashboard',
+      component: Dashboard
+    }
   ]
 })

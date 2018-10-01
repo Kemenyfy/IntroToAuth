@@ -1,17 +1,58 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/login">Log In</router-link>
+    <nav class="navbar">
+        <div class="navbar-header">
+          <router-link :to="'/'" class="logIn" >Home</router-link> |
+          <router-link :to="'/about'" class="logIn">About</router-link> |
+          <button
+            v-if="!authenticated"
+            @click="login()">Log In
+          </button>
+          <button
+            v-if="authenticated"
+            @click="logout()">
+              Log Out
+          </button>
+        </div>
+    </nav>
+    <div class="container">
+      <router-view 
+        :auth="auth" 
+        :authenticated="authenticated">
+      </router-view>
     </div>
-    <router-view/>
   </div>
 </template>
 
+<script>
+import AuthService from "./AuthService/AuthService";
+
+const auth = new AuthService();
+
+const { login, logout, authenticated, authNotifier } = auth;
+
+export default {
+  name: "app",
+  data() {
+    authNotifier.on("authChange", authState => {
+      this.authenticated = authState.authenticated;
+    });
+    return {
+      auth,
+      authenticated
+    };
+  },
+  methods: {
+    login,
+    logout
+  }
+};
+</script>
+
 <style lang="scss">
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -35,6 +76,6 @@
 }
 
 .logIn:hover {
-  color:#42b983;
+  color: #42b983;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
-    <h1>Log In Goes Here</h1>
+  <div>
+    <h1>This is a About Us page</h1>
   </div>
 </template>
