@@ -19,7 +19,7 @@ export default class AuthService {
   auth0 = new auth0.WebAuth({
     domain: 'devsculture.auth0.com',
     clientID: 'mvzhSdjAjpIYWNhHqEP8UEQfOoohhZLr',
-    redirectUri: 'http://localhost:8080/dashboard',
+    redirectUri: 'http://localhost:8080/callback',
     responseType: 'token id_token',
     scope: 'openid'
   })
@@ -56,7 +56,7 @@ export default class AuthService {
     this.userProfile = null
     this.authNotifier.emit('authChange', false)
     // navigate to the home route
-    router.replace('dashboard')
+    router.replace('/')
   }
   
   isAuthenticated() {

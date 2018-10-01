@@ -2,17 +2,20 @@
   <div id="app">
     <nav class="navbar">
         <div class="navbar-header">
-          <router-link :to="'/'" class="logIn" >Home</router-link> |
+          <router-link :to="'/home'" class="logIn" >Home</router-link> |
           <router-link :to="'/about'" class="logIn">About</router-link> |
-          <button
+          <a
+            class="logIn"
             v-if="!authenticated"
             @click="login()">Log In
-          </button>
-          <button
+          </a>
+          <router-link :to="'/dashboard'" class="logIn" v-if="authenticated">Dashboard</router-link> |
+          <a
+          class="logIn"
             v-if="authenticated"
             @click="logout()">
               Log Out
-          </button>
+          </a>
         </div>
     </nav>
     <div class="container">
@@ -50,7 +53,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
