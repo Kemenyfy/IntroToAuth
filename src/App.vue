@@ -4,6 +4,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
+    <a href="/About" class="logIn">Log In</a>
     <router-view/>
   </div>
 </template>
@@ -25,5 +26,15 @@
       color: #42b983;
     }
   }
+}
+
+.logIn {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
+.logIn:hover {
+  color:#42b983;
 }
 </style>
