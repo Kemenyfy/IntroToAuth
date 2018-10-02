@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navbar">
         <div class="navbar-header">
-          <router-link :to="'/home'" class="logIn" >Home</router-link> |
+          | <router-link :to="'/'" class="logIn" >Home</router-link> |
           <router-link :to="'/about'" class="logIn">About</router-link> |
           <a
             class="logIn"

@@ -6,23 +6,30 @@ import router from './../router'
 
 export default class AuthService {
 
-  authenticated = this.isAuthenticated()
-  authNotifier = new EventEmitter()
+  authenticated = this.isAuthenticated();
+  authNotifier = new EventEmitter();
+  userProfile;
 
   constructor() {
-    this.login = this.login.bind(this)
-    this.setSession = this.setSession.bind(this)
-    this.logout = this.logout.bind(this)
-    this.isAuthenticated = this.isAuthenticated.bind(this)
+    this.login = this.login.bind(this);
+    this.setSession = this.setSession.bind(this);
+    this.logout = this.logout.bind(this);
+    this.isAuthenticated = this.isAuthenticated.bind(this);
+    this.getAccessToken = this.getAccessToken.bind(this);
+    this.getProfile = this.getProfile.bind(this);
   }
-
+  
   auth0 = new auth0.WebAuth({
     domain: 'devsculture.auth0.com',
     clientID: 'mvzhSdjAjpIYWNhHqEP8UEQfOoohhZLr',
     redirectUri: 'http://localhost:8080/callback',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   })
+  
+  login() {
+    this.auth0.authorize()
+  }
 
   // ...
   handleAuthentication() {
@@ -31,8 +38,9 @@ export default class AuthService {
         this.setSession(authResult)
         router.replace('dashboard')
       } else if (err) {
-        router.replace('home')
+        router.replace('')
         console.log(err)
+        alert(`Error: ${err.error}. Check the console for further details.`)
       }
     })
   }
@@ -56,7 +64,7 @@ export default class AuthService {
     this.userProfile = null
     this.authNotifier.emit('authChange', false)
     // navigate to the home route
-    router.replace('home')
+    router.replace('/')
   }
   
   isAuthenticated() {
@@ -65,9 +73,25 @@ export default class AuthService {
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'))
     return new Date().getTime() < expiresAt
   }
-  
-  login() {
-    this.auth0.authorize()
-  }
 
+  //Got from the authO React Documentation
+  getAccessToken() {
+   const accessToken = localStorage.getItem("access_token");
+   if (!accessToken) {
+     throw new Error("No Access Token found");
+   }
+   return accessToken;
+ }
+
+ // Got from the authO React Documentation
+ getProfile(cb) {
+   let accessToken = this.getAccessToken();
+   this.auth0.client.userInfo(accessToken, (err, profile) => {
+     if (profile) {
+       this.userProfile = profile;
+     }
+     cb(err, profile);
+   });
+ }
+  
 }
